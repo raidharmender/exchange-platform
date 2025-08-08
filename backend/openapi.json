@@ -1,0 +1,398 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Exchange API",
+    "version": "1.0.0",
+    "description": "A modern cryptocurrency exchange platform API"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Development server"
+    }
+  ],
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "summary": "Health check",
+        "description": "Check if the service is healthy",
+        "tags": ["Health"],
+        "responses": {
+          "200": {
+            "description": "Service is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "healthy"
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2025-08-08T07:07:21.462284Z"
+                    },
+                    "version": {
+                      "type": "string",
+                      "example": "1.0.0"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/orders/orders": {
+      "get": {
+        "summary": "Get all orders",
+        "description": "Retrieve all orders with optional filtering",
+        "tags": ["Orders"],
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "query",
+            "description": "Filter by trading symbol",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "Filter by order status",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of orders to return",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Number of orders to skip",
+            "required": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of orders retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Order"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new order",
+        "description": "Create a new order in the exchange",
+        "tags": ["Orders"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Order created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request data"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/orders/orders/{id}": {
+      "get": {
+        "summary": "Get a specific order",
+        "description": "Retrieve a specific order by ID",
+        "tags": ["Orders"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Order ID (UUID)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/orders/orders/{id}/cancel": {
+      "put": {
+        "summary": "Cancel an order",
+        "description": "Cancel an existing order",
+        "tags": ["Orders"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Order ID (UUID)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order cancelled successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found"
+          },
+          "400": {
+            "description": "Order cannot be cancelled"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/orders/orders/{id}/trades": {
+      "get": {
+        "summary": "Get order trades",
+        "description": "Get trades for a specific order",
+        "tags": ["Orders"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Order ID (UUID)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order trades retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Trade"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Order ID"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "User ID"
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Trading symbol (e.g., BTC/USD)"
+          },
+          "side": {
+            "type": "string",
+            "enum": ["Buy", "Sell"],
+            "description": "Order side"
+          },
+          "quantity": {
+            "type": "string",
+            "description": "Order quantity"
+          },
+          "price": {
+            "type": "string",
+            "description": "Order price"
+          },
+          "order_type": {
+            "type": "string",
+            "enum": ["Market", "Limit", "Stop", "StopLimit"],
+            "description": "Order type"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["New", "Open", "PartiallyFilled", "Filled", "Cancelled", "Rejected"],
+            "description": "Order status"
+          },
+          "filled_quantity": {
+            "type": "string",
+            "description": "Filled quantity"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp"
+          }
+        }
+      },
+      "CreateOrderRequest": {
+        "type": "object",
+        "required": ["symbol", "side", "quantity", "price", "order_type"],
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "description": "Trading symbol (e.g., BTC/USD)",
+            "example": "BTC/USD"
+          },
+          "side": {
+            "type": "string",
+            "enum": ["Buy", "Sell"],
+            "description": "Order side",
+            "example": "Buy"
+          },
+          "quantity": {
+            "type": "string",
+            "description": "Order quantity",
+            "example": "1.5"
+          },
+          "price": {
+            "type": "string",
+            "description": "Order price",
+            "example": "50000.00"
+          },
+          "order_type": {
+            "type": "string",
+            "enum": ["Market", "Limit", "Stop", "StopLimit"],
+            "description": "Order type",
+            "example": "Limit"
+          }
+        }
+      },
+      "Trade": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Trade ID"
+          },
+          "order_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Order ID"
+          },
+          "symbol": {
+            "type": "string",
+            "description": "Trading symbol"
+          },
+          "quantity": {
+            "type": "string",
+            "description": "Trade quantity"
+          },
+          "price": {
+            "type": "string",
+            "description": "Trade price"
+          },
+          "executed_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Execution timestamp"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Health",
+      "description": "Health check endpoints"
+    },
+    {
+      "name": "Orders",
+      "description": "Order management endpoints"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+/Users/dharmenderrai/Programming/exchange_docker/backend/target/debug/deps/utoipa_swagger_ui-a0b6c422e6cb30da.d: /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utoipa-swagger-ui-6.0.0/src/lib.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utoipa-swagger-ui-6.0.0/src/actix.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utoipa-swagger-ui-6.0.0/src/axum.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utoipa-swagger-ui-6.0.0/src/oauth.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utoipa-swagger-ui-6.0.0/src/rocket.rs /Users/dharmenderrai/Programming/exchange_docker/backend/target/debug/build/utoipa-swagger-ui-5a6f55f9861348e9/out/embed.rs
+
+/Users/dharmenderrai/Programming/exchange_docker/backend/target/debug/deps/libutoipa_swagger_ui-a0b6c422e6cb30da.rmeta: /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utoipa-swagger-ui-6.0.0/src/lib.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utoipa-swagger-ui-6.0.0/src/actix.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utoipa-swagger-ui-6.0.0/src/axum.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utoipa-swagger-ui-6.0.0/src/oauth.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utoipa-swagger-ui-6.0.0/src/rocket.rs /Users/dharmenderrai/Programming/exchange_docker/backend/target/debug/build/utoipa-swagger-ui-5a6f55f9861348e9/out/embed.rs
+
+/Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utoipa-swagger-ui-6.0.0/src/lib.rs:
+/Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utoipa-swagger-ui-6.0.0/src/actix.rs:
+/Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utoipa-swagger-ui-6.0.0/src/axum.rs:
+/Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utoipa-swagger-ui-6.0.0/src/oauth.rs:
+/Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/utoipa-swagger-ui-6.0.0/src/rocket.rs:
+/Users/dharmenderrai/Programming/exchange_docker/backend/target/debug/build/utoipa-swagger-ui-5a6f55f9861348e9/out/embed.rs:
+
+# env-dep:OUT_DIR=/Users/dharmenderrai/Programming/exchange_docker/backend/target/debug/build/utoipa-swagger-ui-5a6f55f9861348e9/out

@@ -1,0 +1,10 @@
+/Users/dharmenderrai/Programming/exchange_docker/backend/target/debug/deps/actix_cors-58b6dbb65d0e362e.d: /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/lib.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/all_or_some.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/builder.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/error.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/inner.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/middleware.rs
+
+/Users/dharmenderrai/Programming/exchange_docker/backend/target/debug/deps/libactix_cors-58b6dbb65d0e362e.rmeta: /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/lib.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/all_or_some.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/builder.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/error.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/inner.rs /Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/middleware.rs
+
+/Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/lib.rs:
+/Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/all_or_some.rs:
+/Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/builder.rs:
+/Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/error.rs:
+/Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/inner.rs:
+/Users/dharmenderrai/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/actix-cors-0.6.5/src/middleware.rs:

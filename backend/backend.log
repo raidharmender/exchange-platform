@@ -1,0 +1,223 @@
+warning: unused import: `std::env`
+ --> src/config.rs:2:5
+  |
+2 | use std::env;
+  |     ^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: unused import: `delete`
+ --> src/handlers/orders.rs:1:52
+  |
+1 | use actix_web::{web, HttpResponse, get, post, put, delete};
+  |                                                    ^^^^^^
+
+warning: unused import: `Serialize`
+ --> src/handlers/orders.rs:2:26
+  |
+2 | use serde::{Deserialize, Serialize};
+  |                          ^^^^^^^^^
+
+warning: unused imports: `OrderResponse`, `OrderStatus`, and `Order`
+ --> src/handlers/orders.rs:4:41
+  |
+4 | use crate::models::{CreateOrderRequest, OrderResponse, Order, OrderStatus};
+  |                                         ^^^^^^^^^^^^^  ^^^^^  ^^^^^^^^^^^
+
+warning: unused imports: `OrderSide` and `OrderType`
+ --> src/services/order_service.rs:5:76
+  |
+5 | ...uest, OrderResponse, OrderStatus, OrderSide, OrderType};
+  |                                      ^^^^^^^^^  ^^^^^^^^^
+
+warning: unused import: `OrderStatus`
+ --> src/services/order_book_service.rs:6:46
+  |
+6 | use crate::models::{Order, Trade, OrderSide, OrderStatus};
+  |                                              ^^^^^^^^^^^
+
+warning: unused variable: `order_id`
+   --> src/services/order_service.rs:107:35
+    |
+107 |     pub async fn get_order(&self, order_id: Uuid) -> Result<OrderResponse, AppError> {
+    |                                   ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_order_id`
+    |
+    = note: `#[warn(unused_variables)]` on by default
+
+warning: unused variable: `query`
+   --> src/services/order_service.rs:129:36
+    |
+129 | ...self, query: &OrderQuery) -> Result<Vec<OrderResponse>, AppError> {
+    |          ^^^^^ help: if this is intentional, prefix it with an underscore: `_query`
+
+warning: unused variable: `order_id`
+   --> src/services/order_service.rs:176:38
+    |
+176 |     pub async fn cancel_order(&self, order_id: Uuid) -> Result<OrderResponse, AppError> {
+    |                                      ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_order_id`
+
+warning: unused variable: `order_id`
+   --> src/services/order_service.rs:211:42
+    |
+211 | ...f, order_id: Uuid) -> Result<Vec<crate::models::TradeResponse>, AppError> {
+    |       ^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_order_id`
+
+warning: unused variable: `request`
+   --> src/services/order_service.rs:232:36
+    |
+232 |     async fn validate_order(&self, request: &CreateOrderRequest) -> Result<(), AppError> {
+    |                                    ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_request`
+
+warning: fields `symbol`, `status`, `limit`, and `offset` are never read
+  --> src/handlers/orders.rs:10:9
+   |
+9  | pub struct OrderQuery {
+   |            ---------- fields in this struct
+10 |     pub symbol: Option<String>,
+   |         ^^^^^^
+11 |     pub status: Option<String>,
+   |         ^^^^^^
+12 |     pub limit: Option<i64>,
+   |         ^^^^^
+13 |     pub offset: Option<i64>,
+   |         ^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: field `order_book` is never read
+  --> src/services/order_service.rs:14:5
+   |
+11 | pub struct OrderService {
+   |            ------------ field in this struct
+...
+14 |     order_book: Arc<OrderBookService>,
+   |     ^^^^^^^^^^
+   |
+   = note: `OrderService` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+
+warning: field `orders` is never read
+  --> src/services/order_book_service.rs:11:5
+   |
+10 | struct OrderQueue {
+   |        ---------- field in this struct
+11 |     orders: Vec<Order>,
+   |     ^^^^^^
+   |
+   = note: `OrderQueue` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+
+warning: associated items `new`, `add_order`, `remove_order`, `get_next_order`, `is_empty`, and `total_quantity` are never used
+  --> src/services/order_book_service.rs:15:8
+   |
+14 | impl OrderQueue {
+   | --------------- associated items in this implementation
+15 |     fn new() -> Self {
+   |        ^^^
+...
+19 |     fn add_order(&mut self, order: Order) {
+   |        ^^^^^^^^^
+...
+25 |     fn remove_order(&mut self, order_id: Uuid) -> Option<Order> {
+   |        ^^^^^^^^^^^^
+...
+33 |     fn get_next_order(&mut self) -> Option<Order> {
+   |        ^^^^^^^^^^^^^^
+...
+37 |     fn is_empty(&self) -> bool {
+   |        ^^^^^^^^
+...
+41 |     fn total_quantity(&self) -> Decimal {
+   |        ^^^^^^^^^^^^^^
+
+warning: fields `bids` and `asks` are never read
+  --> src/services/order_book_service.rs:48:5
+   |
+47 | pub struct OrderBookService {
+   |            ---------------- fields in this struct
+48 |     bids: Arc<RwLock<BTreeMap<Decimal, OrderQueue>>>, // Price -> Orders (descending)
+   |     ^^^^
+49 |     asks: Arc<RwLock<BTreeMap<Decimal, OrderQueue>>>, // Price -> Orders (ascending)
+   |     ^^^^
+   |
+   = note: `OrderBookService` has a derived impl for the trait `Clone`, but this is intentionally ignored during dead code analysis
+
+warning: methods `add_order`, `match_buy_order`, `match_sell_order`, `remove_order`, and `get_order_book` are never used
+   --> src/services/order_book_service.rs:60:18
+    |
+52  | impl OrderBookService {
+    | --------------------- methods in this implementation
+...
+60  |     pub async fn add_order(&mut self, order: &Order) -> Result<Vec<Trade>, AppError> {
+    |                  ^^^^^^^^^
+...
+103 |     async fn match_buy_order(&mut self, buy_order: &Order) -> Result<Vec<Trade>, AppError> {
+    |              ^^^^^^^^^^^^^^^
+...
+160 |     async fn match_sell_order(&mut self, sell_order: &Order) -> Result<Vec<Trade>, AppErro...
+    |              ^^^^^^^^^^^^^^^^
+...
+217 |     pub async fn remove_order(&mut self, order: &Order) -> Result<(), AppError> {
+    |                  ^^^^^^^^^^^^
+...
+241 |     pub async fn get_order_book(&self, symbol: &str) -> crate::models::OrderBook {
+    |                  ^^^^^^^^^^^^^^
+
+warning: variants `Authorization`, `OrderBook`, `Trade`, and `User` are never constructed
+  --> src/errors.rs:19:5
+   |
+6  | pub enum AppError {
+   |          -------- variants in this enum
+...
+19 |     Authorization(String),
+   |     ^^^^^^^^^^^^^
+...
+25 |     OrderBook(String),
+   |     ^^^^^^^^^
+...
+28 |     Trade(String),
+   |     ^^^^^
+...
+31 |     User(String),
+   |     ^^^^
+   |
+   = note: `AppError` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+
+warning: `exchange-api` (bin "exchange-api") generated 18 warnings (run `cargo fix --bin "exchange-api"` to apply 6 suggestions)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 4.71s
+     Running `target/debug/exchange-api`
+[2m2025-08-08T06:27:47.269150Z[0m [32m INFO[0m [2mexchange_api[0m[2m:[0m Starting Exchange API server...
+[2m2025-08-08T06:27:47.270652Z[0m [32m INFO[0m [2mactix_server::builder[0m[2m:[0m starting 6 workers
+[2m2025-08-08T06:27:47.270697Z[0m [32m INFO[0m [2mexchange_api[0m[2m:[0m Server running on 0.0.0.0:8080
+[2m2025-08-08T06:27:47.270723Z[0m [32m INFO[0m [2mactix_server::server[0m[2m:[0m Actix runtime found; starting in Actix runtime
+[2m2025-08-08T06:27:47.270741Z[0m [32m INFO[0m [2mactix_server::server[0m[2m:[0m starting service: "actix-web-service-0.0.0.0:8080", workers: 6, listening on: 0.0.0.0:8080
+[2m2025-08-08T06:28:17.265176Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /api/v1/health HTTP/1.1" 200 85 "-" "curl/8.7.1" 0.000167    
+[2m2025-08-08T06:46:06.834546Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /api/v1/health HTTP/1.1" 200 85 "-" "curl/8.7.1" 0.000295    
+[2m2025-08-08T06:46:59.521280Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /api/v1/health HTTP/1.1" 200 85 "-" "curl/8.7.1" 0.000204    
+[2m2025-08-08T06:57:09.854699Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /api/v1/health HTTP/1.1" 200 85 "-" "curl/8.7.1" 0.000153    
+[2m2025-08-08T07:05:50.198694Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /api/v1/orders HTTP/1.1" 404 0 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" 0.000180    
+[2m2025-08-08T07:06:37.832387Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /api/v1/orders HTTP/1.1" 404 0 "-" "curl/8.7.1" 0.000236    
+[2m2025-08-08T07:06:40.994356Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /api/v1/orders HTTP/1.1" 404 0 "-" "curl/8.7.1" 0.000109    
+[2m2025-08-08T07:06:55.175392Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "POST /api/v1/orders HTTP/1.1" 404 0 "-" "curl/8.7.1" 0.000126    
+[2m2025-08-08T07:07:04.951960Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /api/v1/health HTTP/1.1" 200 85 "-" "curl/8.7.1" 0.000109    
+[2m2025-08-08T07:07:08.953116Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "POST /api/v1/orders HTTP/1.1" 404 0 "-" "curl/8.7.1" 0.000103    
+[2m2025-08-08T07:07:21.462423Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "POST /api/v1/orders/orders HTTP/1.1" 201 214 "-" "curl/8.7.1" 0.004003    
+[2m2025-08-08T07:07:26.425294Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /api/v1/orders/orders HTTP/1.1" 200 2 "-" "curl/8.7.1" 0.000597    
+[2m2025-08-08T07:32:39.642365Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /api/v1/orders/orders HTTP/1.1" 200 2 "-" "curl/8.7.1" 0.000105    
+[2m2025-08-08T07:32:44.855967Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "POST /api/v1/orders/orders HTTP/1.1" 201 214 "-" "curl/8.7.1" 0.000179    
+[2m2025-08-08T07:52:51.218999Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /swagger-ui HTTP/1.1" 404 0 "-" "curl/8.7.1" 0.000074    
+[2m2025-08-08T07:53:08.136641Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /swagger-ui HTTP/1.1" 404 0 "-" "curl/8.7.1" 0.000074    
+[2m2025-08-08T07:53:19.664078Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /api/v1/health HTTP/1.1" 200 85 "-" "curl/8.7.1" 0.000105    
+[2m2025-08-08T07:53:51.549027Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /swagger-ui HTTP/1.1" 404 0 "-" "curl/8.7.1" 0.000076    
+[2m2025-08-08T07:54:01.811080Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /swagger-ui HTTP/1.1" 404 0 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" 0.000083    
+[2m2025-08-08T07:54:02.446981Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /swagger-ui HTTP/1.1" 404 0 "-" "curl/8.7.1" 0.000075    
+[2m2025-08-08T07:54:04.834277Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /swagger-ui HTTP/1.1" 404 0 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" 0.000099    
+[2m2025-08-08T07:54:07.035323Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /api-docs/openapi.json HTTP/1.1" 404 0 "-" "curl/8.7.1" 0.000076    
+[2m2025-08-08T07:54:16.585258Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /api-docs/openapi.json HTTP/1.1" 404 0 "-" "curl/8.7.1" 0.000077    
+[2m2025-08-08T07:54:33.132740Z[0m [32m INFO[0m [2mactix_web::middleware::logger[0m[2m:[0m 127.0.0.1 "GET /swagger-ui HTTP/1.1" 404 0 "-" "curl/8.7.1" 0.000073    
+[2m2025-08-08T07:54:38.712359Z[0m [32m INFO[0m [2mactix_server::server[0m[2m:[0m SIGTERM received; starting graceful shutdown
+[2m2025-08-08T07:54:38.712667Z[0m [32m INFO[0m [2mactix_server::accept[0m[2m:[0m accept thread stopped
+[2m2025-08-08T07:54:38.712912Z[0m [32m INFO[0m [2mactix_server::worker[0m[2m:[0m shutting down idle worker
+[2m2025-08-08T07:54:38.712912Z[0m [32m INFO[0m [2mactix_server::worker[0m[2m:[0m shutting down idle worker
+[2m2025-08-08T07:54:38.712915Z[0m [32m INFO[0m [2mactix_server::worker[0m[2m:[0m shutting down idle worker
+[2m2025-08-08T07:54:38.712926Z[0m [32m INFO[0m [2mactix_server::worker[0m[2m:[0m shutting down idle worker
+[2m2025-08-08T07:54:38.712927Z[0m [32m INFO[0m [2mactix_server::worker[0m[2m:[0m shutting down idle worker
+[2m2025-08-08T07:54:38.712933Z[0m [32m INFO[0m [2mactix_server::worker[0m[2m:[0m shutting down idle worker
