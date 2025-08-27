@@ -133,65 +133,29 @@ async fn openapi_spec() -> HttpResponse {
 
 ## Usage Examples
 
-### Testing with Swagger UI
+For detailed API testing examples, see the [Testing Guide](Testing.md#api-testing-guide).
 
-1. **Access Swagger UI**:
-   ```bash
-   # Open in browser
-   open http://localhost:8080/swagger-ui
-   ```
+### Quick Testing with Swagger UI
 
-2. **Test Health Check**:
-   - Navigate to the "Health" section
-   - Click on "GET /api/v1/health"
-   - Click "Try it out" and then "Execute"
+1. **Access Swagger UI**: `http://localhost:8080/swagger-ui`
+2. **Test Health Check**: Navigate to "Health" section → "GET /api/v1/health" → "Try it out"
+3. **Create Order**: Navigate to "Orders" section → "POST /api/v1/orders/orders" → Enter JSON body → "Execute"
+4. **Get Orders**: Navigate to "GET /api/v1/orders/orders" → "Try it out" → "Execute"
 
-3. **Create an Order**:
-   - Navigate to the "Orders" section
-   - Click on "POST /api/v1/orders/orders"
-   - Click "Try it out"
-   - Enter the request body:
-   ```json
-   {
-     "symbol": "BTC/USD",
-     "side": "Buy",
-     "quantity": "1.5",
-     "price": "50000.00",
-     "order_type": "Limit"
-   }
-   ```
-   - Click "Execute"
+### Quick Testing with curl
 
-4. **Get Orders**:
-   - Navigate to "GET /api/v1/orders/orders"
-   - Click "Try it out"
-   - Optionally add query parameters
-   - Click "Execute"
+```bash
+# Health check
+curl -X GET "http://localhost:8080/api/v1/health"
 
-### Testing with curl
+# Create order
+curl -X POST "http://localhost:8080/api/v1/orders/orders" \
+  -H "Content-Type: application/json" \
+  -d '{"symbol":"BTC/USD","side":"Buy","quantity":"1.5","price":"50000.00","order_type":"Limit"}'
 
-1. **Health Check**:
-   ```bash
-   curl -X GET "http://localhost:8080/api/v1/health"
-   ```
-
-2. **Create Order**:
-   ```bash
-   curl -X POST "http://localhost:8080/api/v1/orders/orders" \
-     -H "Content-Type: application/json" \
-     -d '{
-       "symbol": "BTC/USD",
-       "side": "Buy",
-       "quantity": "1.5",
-       "price": "50000.00",
-       "order_type": "Limit"
-     }'
-   ```
-
-3. **Get Orders**:
-   ```bash
-   curl -X GET "http://localhost:8080/api/v1/orders/orders"
-   ```
+# Get orders
+curl -X GET "http://localhost:8080/api/v1/orders/orders"
+```
 
 ## Configuration
 

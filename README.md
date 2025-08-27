@@ -4,6 +4,8 @@ A modern cryptocurrency exchange platform built with Rust (backend) and React/Ty
 
 ## Quick Start
 
+For detailed setup instructions, see the [Development Guide](docs/Development.md#quick-start).
+
 ### Prerequisites
 - Rust 1.70+
 - Node.js 18+
@@ -12,40 +14,25 @@ A modern cryptocurrency exchange platform built with Rust (backend) and React/Ty
 ### Backend Setup
 ```bash
 cd backend
-
-# Create environment file
-cat > .env << EOF
-DATABASE_URL=postgresql://user:password@localhost:5432/exchange
-REDIS_URL=redis://localhost:6379
-JWT_SECRET=your-super-secret-jwt-key-here-change-in-production
-RUST_LOG=info
-EOF
-
-# Run in mock mode (no database required)
-cargo run --no-default-features
+cargo run --no-default-features  # Mock mode (no database required)
 ```
 
 ### Frontend Setup
 ```bash
 cd frontend
-
-# Install dependencies
 npm install
-
-# Start development server
 npm run dev
 ```
 
 ### Verify Setup
 ```bash
-# Test backend
-curl http://localhost:8080/api/v1/health
-
-# Test frontend
-curl http://localhost:5173
+curl http://localhost:8080/api/v1/health  # Backend
+curl http://localhost:5173                # Frontend
 ```
 
 ## Architecture
+
+For detailed architecture information, see the [Development Guide](docs/Development.md#architecture).
 
 ### Backend (Rust/Actix-web)
 - **Framework**: Actix-web 4.4
@@ -67,27 +54,15 @@ curl http://localhost:5173
 
 ## Testing
 
-### Backend Tests
-```bash
-# Run all tests
-cargo test
+For comprehensive testing information, see the [Testing Guide](docs/Testing.md).
 
-# Run tests without database
+### Quick Test Commands
+```bash
+# Backend
 cargo test --no-default-features
 
-# Run tests with output
-cargo test -- --nocapture
-```
-
-### Frontend Tests
-```bash
-# Run unit tests
+# Frontend
 npm test
-
-# Run tests in watch mode
-npm run test:ui
-
-# Run end-to-end tests
 npm run test:e2e
 ```
 
@@ -100,170 +75,78 @@ npm run test:e2e
 
 ## Development
 
-### Backend Development
+For detailed development procedures, see the [Development Guide](docs/Development.md#development-workflow).
+
+### Quick Development Commands
 ```bash
-# Mock mode (no database)
-cargo run --no-default-features
+# Backend
+cargo run --no-default-features  # Mock mode
+cargo fmt                        # Format code
+cargo clippy                     # Lint code
 
-# With database (requires PostgreSQL and Redis)
-cargo run --features database
-
-# Format code
-cargo fmt
-
-# Check code
-cargo check
-
-# Clippy (linting)
-cargo clippy
+# Frontend
+npm run dev                      # Start dev server
+npm run lint                     # Lint code
+npm test                        # Run tests
 ```
-
-### Frontend Development
-```bash
-# Start development server with HMR
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-
-# Lint code with ESLint
-npm run lint
-
-# Type check with TypeScript
-npx tsc --noEmit
-
-# Run unit tests
-npm test
-
-# Run tests in watch mode
-npm run test:ui
-
-# Run end-to-end tests
-npm run test:e2e
-```
-
-### Frontend Configuration
-The frontend uses a modern React + TypeScript + Vite setup with:
-
-- **Vite Configuration**: Optimized for fast development and production builds
-- **TypeScript**: Strict type checking with separate configs for app and node
-- **ESLint**: TypeScript-aware linting with recommended rules
-- **Tailwind CSS**: Utility-first CSS framework with PostCSS processing
-- **Testing**: Vitest for unit tests and Playwright for E2E testing
 
 ## Docker
 
-### Backend
-```dockerfile
-FROM rust:1.70 as builder
-WORKDIR /app
-COPY . .
-RUN cargo build --release
+For detailed Docker configurations, see the [Development Guide](docs/Development.md#deployment).
 
-FROM debian:bullseye-slim
-RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
-COPY --from=builder /app/target/release/exchange-api /usr/local/bin/
-EXPOSE 8080
-CMD ["exchange-api"]
-```
-
-### Frontend
-```dockerfile
-FROM node:18-alpine as builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY . .
-RUN npm run build
-
-FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-```
-
-## K8S
-
-The platform includes Kubernetes manifests for deployment:
-
+### Quick Docker Commands
 ```bash
-# Apply namespace
-kubectl apply -f kubernetes/namespace.yml
+# Build and run backend
+docker build -t exchange-api ./backend
+docker run -p 8080:8080 exchange-api
 
-# Apply secrets and configmaps
-kubectl apply -f kubernetes/secrets.yml
-kubectl apply -f kubernetes/configmap.yml
+# Build and run frontend
+docker build -t exchange-frontend ./frontend
+docker run -p 80:80 exchange-frontend
+```
 
-# Deploy infrastructure
-kubectl apply -f kubernetes/postgres-deployment.yml
-kubectl apply -f kubernetes/redis-deployment.yml
+## Kubernetes
 
-# Deploy applications
-kubectl apply -f kubernetes/api-deployment.yml
-kubectl apply -f kubernetes/frontend-deployment.yml
+For detailed Kubernetes deployment procedures, see the [Runbook](docs/Runbook.md#deployment-procedures).
 
-# Deploy ingress
-kubectl apply -f kubernetes/ingress.yml
+### Quick K8S Commands
+```bash
+# Deploy all components
+kubectl apply -f kubernetes/
+
+# Check deployment status
+kubectl get pods -n exchange
 ```
 
 ## API Endpoints
 
-### Health Check
-```bash
-GET /api/v1/health
-```
+For detailed API documentation and testing, see:
+- [Swagger Documentation](docs/Swagger.md) - Interactive API documentation
+- [Testing Guide](docs/Testing.md#api-testing-guide) - API testing examples
 
-### Orders
+### Quick API Test
 ```bash
+# Health check
+curl http://localhost:8080/api/v1/health
+
 # Create order
-POST /api/v1/orders
-{
-  "symbol": "BTC/USD",
-  "side": "Buy",
-  "quantity": "1.0",
-  "price": "50000.00",
-  "order_type": "Limit"
-}
-
-# Get orders
-GET /api/v1/orders
-
-# Get specific order
-GET /api/v1/orders/{id}
-
-# Cancel order
-PUT /api/v1/orders/{id}/cancel
-
-# Get order trades
-GET /api/v1/orders/{id}/trades
+curl -X POST http://localhost:8080/api/v1/orders/orders \
+  -H "Content-Type: application/json" \
+  -d '{"symbol":"BTC/USD","side":"Buy","quantity":"1.0","price":"50000.00","order_type":"Limit"}'
 ```
 
 ## Troubleshooting
 
-### Common Issues
+For comprehensive troubleshooting information, see the [Runbook & Troubleshooting Guide](docs/Runbook.md#troubleshooting).
 
-#### Backend Issues
-1. **Database Connection Failed**
-   - Check if PostgreSQL is running
-   - Verify DATABASE_URL in .env
-   - Use mock mode: `cargo run --no-default-features`
+### Quick Fixes
+```bash
+# Backend issues
+cargo clean && cargo run --no-default-features
 
-2. **Compilation Errors**
-   - Run `cargo clean` and try again
-   - Check Rust version: `rustc --version`
-   - Update dependencies: `cargo update`
-
-#### Frontend Issues
-1. **Dependencies Not Found**
-   - Delete `node_modules` and `package-lock.json`
-   - Run `npm install`
-
-2. **Build Errors**
-   - Check Node.js version: `node --version`
-   - Clear cache: `npm run build -- --force`
+# Frontend issues
+rm -rf node_modules package-lock.json && npm install
+```
 
 ## How can you contribute
 

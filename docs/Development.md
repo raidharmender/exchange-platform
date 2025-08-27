@@ -149,102 +149,31 @@ npx tsc --noEmit
 
 ## Testing Strategy
 
-### Backend Testing
+For comprehensive testing information, see the [Testing Guide](Testing.md).
 
-#### Unit Tests
-- Located in `src/` files with `#[cfg(test)]` modules
-- Test individual functions and methods
-- Mock external dependencies
+### Quick Testing Overview
 
-#### Integration Tests
-- Located in `tests/` directory
-- Test API endpoints
-- Test database interactions
+#### Backend Testing
+- Unit tests in `src/` files with `#[cfg(test)]` modules
+- Integration tests in `tests/` directory
+- Use `cargo test --no-default-features` for mock mode
 
-#### Example Test
-```rust
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_create_order_request_validation() {
-        let valid_request = CreateOrderRequest {
-            symbol: "BTC/USD".to_string(),
-            side: OrderSide::Buy,
-            quantity: Decimal::new(100, 2),
-            price: Decimal::new(5000000, 2),
-            order_type: OrderType::Limit,
-        };
-        assert!(valid_request.validate().is_ok());
-    }
-}
-```
-
-### Frontend Testing
-
-#### Unit Tests
-- Located in `src/` files with `.test.tsx` extension
-- Test React components and utilities
-- Use Vitest and React Testing Library
-
-#### End-to-End Tests
-- Located in `tests/` directory
-- Test complete user workflows
-- Use Playwright
-
-#### Example Test
-```typescript
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import App from './App';
-
-describe('App', () => {
-  it('renders without crashing', () => {
-    render(<App />);
-    expect(screen.getByText(/exchange/i)).toBeInTheDocument();
-  });
-});
-```
+#### Frontend Testing
+- Unit tests with Vitest and React Testing Library
+- E2E tests with Playwright
+- Use `npm test` and `npm run test:e2e`
 
 ## API Development
 
-### Endpoints
+For detailed API documentation and testing, see:
+- [Swagger Documentation](Swagger.md) - Interactive API documentation
+- [Testing Guide](Testing.md#api-testing-guide) - API testing examples
 
-#### Health Check
-```bash
-GET /api/v1/health
-```
-
-#### Orders
-```bash
-# Create order
-POST /api/v1/orders
-{
-  "symbol": "BTC/USD",
-  "side": "Buy",
-  "quantity": "1.0",
-  "price": "50000.00",
-  "order_type": "Limit"
-}
-
-# Get orders
-GET /api/v1/orders
-
-# Get specific order
-GET /api/v1/orders/{id}
-
-# Cancel order
-PUT /api/v1/orders/{id}/cancel
-
-# Get order trades
-GET /api/v1/orders/{id}/trades
-```
-
-### Error Handling
-- Consistent error response format
-- HTTP status codes
-- Detailed error messages
+### Quick API Reference
+- Health Check: `GET /api/v1/health`
+- Orders: `GET/POST /api/v1/orders/orders`
+- Order Management: `GET/PUT /api/v1/orders/orders/{id}`
+- Trades: `GET /api/v1/orders/orders/{id}/trades`
 
 ## Database Schema
 
@@ -387,46 +316,17 @@ spec:
 
 ## Troubleshooting
 
-### Common Issues
+For comprehensive troubleshooting information, see the [Runbook & Troubleshooting Guide](Runbook.md#troubleshooting).
 
-#### Backend Issues
-1. **Database Connection Failed**
-   - Check if PostgreSQL is running
-   - Verify DATABASE_URL in .env
-   - Use mock mode: `cargo run --no-default-features`
-
-2. **Compilation Errors**
-   - Run `cargo clean` and try again
-   - Check Rust version: `rustc --version`
-   - Update dependencies: `cargo update`
-
-#### Frontend Issues
-1. **Dependencies Not Found**
-   - Delete `node_modules` and `package-lock.json`
-   - Run `npm install`
-
-2. **Build Errors**
-   - Check Node.js version: `node --version`
-   - Clear cache: `npm run build -- --force`
-
-### Debugging
-
-#### Backend Debugging
+### Quick Debugging Commands
 ```bash
-# Run with debug logging
+# Backend debugging
 RUST_LOG=debug cargo run --no-default-features
-
-# Check logs
 tail -f backend.log
-```
 
-#### Frontend Debugging
-```bash
-# Run with debug mode
+# Frontend debugging
 npm run dev -- --debug
-
-# Check browser console
-# Open Developer Tools in browser
+# Check browser console (F12)
 ```
 
 ## Contributing
