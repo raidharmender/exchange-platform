@@ -2,7 +2,7 @@
 
 A modern cryptocurrency exchange platform built with Rust (backend) and React/TypeScript (frontend).
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Rust 1.70+
@@ -45,7 +45,7 @@ curl http://localhost:8080/api/v1/health
 curl http://localhost:5173
 ```
 
-## 🏗️ Architecture
+## Architecture
 
 ### Backend (Rust/Actix-web)
 - **Framework**: Actix-web 4.4
@@ -63,7 +63,7 @@ curl http://localhost:5173
 - **State Management**: Zustand
 - **HTTP Client**: Axios
 
-## 🧪 Testing
+## Testing
 
 ### Backend Tests
 ```bash
@@ -89,13 +89,13 @@ npm run test:ui
 npm run test:e2e
 ```
 
-## 📚 Documentation
+## Documentation
 
 - [Development Guide](docs/DEVELOPMENT.md) - Comprehensive development guide
 - [Runbook](docs/Runbook.md) - Operational procedures and troubleshooting
 - [Testing Strategy](docs/Testing%20Strategy.md) - Testing approach and procedures
 
-## 🔧 Development
+## Development
 
 ### Backend Development
 ```bash
@@ -133,7 +133,7 @@ npm run lint
 npx tsc --noEmit
 ```
 
-## 🐳 Docker
+## Docker
 
 ### Backend
 ```dockerfile
@@ -164,7 +164,7 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-## ☸️ Kubernetes
+## K8S
 
 The platform includes Kubernetes manifests for deployment:
 
@@ -220,7 +220,7 @@ PUT /api/v1/orders/{id}/cancel
 GET /api/v1/orders/{id}/trades
 ```
 
-## 🚨 Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -244,7 +244,7 @@ GET /api/v1/orders/{id}/trades
    - Check Node.js version: `node --version`
    - Clear cache: `npm run build -- --force`
 
-## 🤝 Contributing
+## How can you contribute
 
 1. Fork the repository
 2. Create a feature branch
@@ -266,18 +266,18 @@ GET /api/v1/orders/{id}/trades
 - Use TypeScript strictly
 - Add JSDoc comments
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🆘 Support
+## Support
 
 For support and questions:
 - Check the [documentation](docs/)
 - Open an [issue](../../issues)
 - Contact the development team
 
-## 🗺️ Roadmap
+## Roadmap
 
 - [ ] Real-time order book updates
 - [ ] WebSocket support
@@ -287,3 +287,6 @@ For support and questions:
 - [ ] Mobile app
 - [ ] Advanced analytics
 - [ ] Multi-language support
+
+## Anything else
+Please send me mail at dharmender.rai@yahoo.com
