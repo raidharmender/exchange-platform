@@ -8,6 +8,9 @@ dist/
 dist-ssr/
 *.local
 
+# OpenAPI files (generated)
+openapi.json
+
 # Logs
 logs
 *.log
@@ -43,6 +46,9 @@ Thumbs.db
 # Rust specific
 target/
 Cargo.lock
+*.log
+server.log
+backend.log
 
 # Temporary files
 *.tmp

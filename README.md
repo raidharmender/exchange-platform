@@ -57,11 +57,13 @@ curl http://localhost:5173
 
 ### Frontend (React/TypeScript/Vite)
 - **Framework**: React 18 with TypeScript
-- **Build Tool**: Vite
-- **Testing**: Vitest + Playwright
-- **Styling**: Tailwind CSS
+- **Build Tool**: Vite with HMR (Hot Module Replacement)
+- **Testing**: Vitest + Playwright for E2E testing
+- **Styling**: Tailwind CSS with PostCSS
 - **State Management**: Zustand
 - **HTTP Client**: Axios
+- **Linting**: ESLint with TypeScript support
+- **Type Checking**: Strict TypeScript configuration
 
 ## Testing
 
@@ -91,9 +93,10 @@ npm run test:e2e
 
 ## Documentation
 
-- [Development Guide](docs/DEVELOPMENT.md) - Comprehensive development guide
-- [Runbook](docs/Runbook.md) - Operational procedures and troubleshooting
-- [Testing Strategy](docs/Testing%20Strategy.md) - Testing approach and procedures
+- [Development Guide](docs/Development.md) - Comprehensive development guide
+- [Runbook & Troubleshooting](docs/Runbook.md) - Operational procedures and troubleshooting guide
+- [Testing Guide](docs/Testing.md) - Comprehensive testing strategy and API testing
+- [Swagger Documentation](docs/Swagger.md) - API documentation and examples
 
 ## Development
 
@@ -117,7 +120,7 @@ cargo clippy
 
 ### Frontend Development
 ```bash
-# Start development server
+# Start development server with HMR
 npm run dev
 
 # Build for production
@@ -126,12 +129,30 @@ npm run build
 # Preview production build
 npm run preview
 
-# Lint code
+# Lint code with ESLint
 npm run lint
 
-# Type check
+# Type check with TypeScript
 npx tsc --noEmit
+
+# Run unit tests
+npm test
+
+# Run tests in watch mode
+npm run test:ui
+
+# Run end-to-end tests
+npm run test:e2e
 ```
+
+### Frontend Configuration
+The frontend uses a modern React + TypeScript + Vite setup with:
+
+- **Vite Configuration**: Optimized for fast development and production builds
+- **TypeScript**: Strict type checking with separate configs for app and node
+- **ESLint**: TypeScript-aware linting with recommended rules
+- **Tailwind CSS**: Utility-first CSS framework with PostCSS processing
+- **Testing**: Vitest for unit tests and Playwright for E2E testing
 
 ## Docker
 
@@ -188,7 +209,7 @@ kubectl apply -f kubernetes/frontend-deployment.yml
 kubectl apply -f kubernetes/ingress.yml
 ```
 
-## 🔍 API Endpoints
+## API Endpoints
 
 ### Health Check
 ```bash

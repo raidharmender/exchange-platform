@@ -1,4 +1,4 @@
-# Exchange Platform - Operational Runbook
+# Exchange Platform - Operational Runbook & Troubleshooting Guide
 
 ## Table of Contents
 
@@ -409,9 +409,259 @@ groups:
 
 ## Troubleshooting
 
-### 1. Common Issues
+### 1. Frontend Issues
 
-#### 1.1 API Service Not Responding
+#### 1.1 Blank Frontend Page
+
+**Problem**: The React frontend displays a blank page even though the Vite development server is running.
+
+**Root Cause**: The issue was caused by React Router and component import problems, combined with missing Tailwind CSS configuration.
+
+**Solution**:
+
+1. **Check React Router Configuration**:
+   - Ensure all imported components exist and are properly exported
+   - Verify that the routing configuration is correct
+   - Check for any JavaScript errors in the browser console
+
+2. **Verify Tailwind CSS Setup**:
+   ```bash
+   # Check if Tailwind CSS is properly configured
+   ls frontend/tailwind.config.js
+   ls frontend/postcss.config.js
+   ```
+
+3. **Check Component Imports**:
+   - Ensure all components referenced in `App.tsx` exist
+   - Verify that the import paths are correct
+   - Check for any TypeScript compilation errors
+
+4. **Browser Console Debugging**:
+   - Open browser developer tools (F12)
+   - Check the Console tab for JavaScript errors
+   - Look for any React-related error messages
+
+5. **Vite Configuration**:
+   - Ensure `vite.config.ts` is properly configured
+   - Check that the React plugin is enabled
+   - Verify that the development server is running on the correct port
+
+**Prevention**:
+- Always check browser console for errors when the frontend appears blank
+- Ensure all dependencies are properly installed
+- Test component imports individually
+- Use TypeScript for better error detection
+
+### 2. Backend Issues
+
+#### 2.1 Database Connection Issues
+
+**Problem**: Backend fails to start due to database connection errors.
+
+**Solution**:
+```bash
+# Run in mock mode (no database required)
+cargo run --no-default-features
+
+# Or run with database (requires PostgreSQL and Redis)
+cargo run --features database
+```
+
+#### 2.2 Swagger UI Implementation
+
+**Problem**: Need to provide API documentation for testing.
+
+**Solution**: The backend now includes a complete Swagger UI implementation.
+
+**Features**:
+- Interactive API documentation
+- Request/response examples
+- Real-time API testing
+- OpenAPI 3.0 specification
+
+**Access**:
+- Swagger UI: `http://localhost:8080/swagger-ui`
+- OpenAPI JSON: `http://localhost:8080/api-docs/openapi.json`
+
+**Implementation Details**:
+- Uses external Swagger UI CDN for simplicity
+- Serves OpenAPI specification from `backend/openapi.json`
+- Includes all API endpoints with proper documentation
+- Supports request/response examples
+
+**API Endpoints Documented**:
+- `GET /api/v1/health` - Health check
+- `GET /api/v1/orders/orders` - Get all orders
+- `POST /api/v1/orders/orders` - Create new order
+- `GET /api/v1/orders/orders/{id}` - Get specific order
+- `PUT /api/v1/orders/orders/{id}/cancel` - Cancel order
+- `GET /api/v1/orders/orders/{id}/trades` - Get order trades
+
+### 3. Common Development Issues
+
+#### 3.1 Port Conflicts
+
+**Problem**: Services fail to start due to port conflicts.
+
+**Solution**:
+```bash
+# Check what's running on a port
+lsof -i :8080
+lsof -i :5173
+
+# Kill processes using specific ports
+pkill -f "cargo run"
+pkill -f "npm run dev"
+```
+
+#### 3.2 Docker Issues
+
+**Problem**: Docker containers fail to start or run out of space.
+
+**Solution**:
+```bash
+# Clean up Docker resources
+docker system prune -f
+
+# Check Docker disk usage
+docker system df
+
+# Remove unused containers and images
+docker container prune -f
+docker image prune -f
+```
+
+#### 3.3 Dependency Issues
+
+**Problem**: Missing or incompatible dependencies.
+
+**Solution**:
+```bash
+# Backend (Rust)
+cargo clean
+cargo update
+cargo check
+
+# Frontend (Node.js)
+rm -rf node_modules package-lock.json
+npm install
+```
+
+### 4. Performance Issues
+
+#### 4.1 Slow Build Times
+
+**Problem**: Build times are too slow.
+
+**Solution**:
+```bash
+# Backend optimization
+cargo build --release
+
+# Frontend optimization
+npm run build
+```
+
+#### 4.2 Memory Issues
+
+**Problem**: Services consume too much memory.
+
+**Solution**:
+- Monitor memory usage with `htop` or `top`
+- Restart services periodically
+- Check for memory leaks in application code
+
+### 5. Network Issues
+
+#### 5.1 CORS Errors
+
+**Problem**: Frontend can't communicate with backend due to CORS.
+
+**Solution**:
+- Backend is configured with CORS support
+- Ensure frontend is making requests to the correct backend URL
+- Check that the backend CORS configuration allows the frontend origin
+
+#### 5.2 Connection Refused
+
+**Problem**: Services can't connect to each other.
+
+**Solution**:
+- Verify that services are running on the correct ports
+- Check firewall settings
+- Ensure services are binding to the correct interfaces
+
+### 6. Testing Issues
+
+#### 6.1 Test Failures
+
+**Problem**: Tests are failing.
+
+**Solution**:
+```bash
+# Backend tests
+cargo test --no-default-features
+
+# Frontend tests
+npm test
+
+# End-to-end tests
+npm run test:e2e
+```
+
+### 7. Deployment Issues
+
+#### 7.1 Production Build Issues
+
+**Problem**: Production builds fail or don't work correctly.
+
+**Solution**:
+```bash
+# Backend production build
+cargo build --release
+
+# Frontend production build
+npm run build
+npm run preview
+```
+
+#### 7.2 Environment Variables
+
+**Problem**: Missing or incorrect environment variables.
+
+**Solution**:
+- Check that all required environment variables are set
+- Verify the format of environment variables
+- Ensure sensitive data is properly secured
+
+### 8. Monitoring and Logging
+
+#### 8.1 Log Analysis
+
+**Problem**: Need to debug issues in production.
+
+**Solution**:
+```bash
+# Check application logs
+tail -f backend.log
+tail -f frontend.log
+
+# Check system logs
+journalctl -u your-service-name
+```
+
+#### 8.2 Health Checks
+
+**Problem**: Need to monitor service health.
+
+**Solution**:
+- Backend health check: `GET /api/v1/health`
+- Frontend health check: Check if the application loads
+- Database health check: Verify database connectivity
+
+### 9. Common Issues
+
+#### 9.1 API Service Not Responding
 ```bash
 # Check pod status
 kubectl get pods -l app=exchange-api -n exchange
@@ -426,7 +676,7 @@ kubectl get endpoints exchange-api -n exchange
 kubectl describe ingress exchange-ingress -n exchange
 ```
 
-#### 1.2 Database Connection Issues
+#### 9.2 Database Connection Issues
 ```bash
 # Check PostgreSQL pod
 kubectl get pods -l app=postgres -n exchange
@@ -438,7 +688,7 @@ kubectl logs -l app=postgres -n exchange
 kubectl exec -it deployment/postgres -n exchange -- psql -U user -d exchange -c "SELECT 1;"
 ```
 
-#### 1.3 Frontend Issues
+#### 9.3 Frontend Issues
 ```bash
 # Check frontend pod
 kubectl get pods -l app=exchange-frontend -n exchange
@@ -450,9 +700,9 @@ kubectl logs -l app=exchange-frontend -n exchange
 kubectl get svc exchange-frontend -n exchange
 ```
 
-### 2. Performance Issues
+### 10. Performance Issues
 
-#### 2.1 High CPU Usage
+#### 10.1 High CPU Usage
 ```bash
 # Check resource usage
 kubectl top pods -n exchange
@@ -464,7 +714,7 @@ kubectl describe pod -l app=exchange-api -n exchange
 kubectl scale deployment exchange-api --replicas=5 -n exchange
 ```
 
-#### 2.2 High Memory Usage
+#### 10.2 High Memory Usage
 ```bash
 # Check memory usage
 kubectl top pods -n exchange
@@ -476,9 +726,9 @@ kubectl describe pod -l app=exchange-api -n exchange
 kubectl logs -l app=exchange-api -n exchange | grep -i "out of memory"
 ```
 
-### 3. Network Issues
+### 11. Network Issues
 
-#### 3.1 Service Communication
+#### 11.1 Service Communication
 ```bash
 # Test service connectivity
 kubectl exec -it deployment/exchange-api -n exchange -- curl -v http://postgres:5432
@@ -657,6 +907,34 @@ kubectl exec -it deployment/exchange-api -n exchange -- cargo audit
    - Implement additional security measures
    - Update monitoring
    - Review access controls
+
+## Getting Help
+
+If you encounter issues not covered in this guide:
+
+1. Check the application logs for error messages
+2. Review the browser console for frontend errors
+3. Verify that all dependencies are up to date
+4. Test with a clean environment
+5. Check the project documentation
+6. Review the API documentation at `/swagger-ui`
+
+## Quick Commands
+
+```bash
+# Start backend (mock mode)
+cargo run --no-default-features
+
+# Start frontend
+npm run dev
+
+# Check if services are running
+curl http://localhost:8080/api/v1/health
+curl http://localhost:5173
+
+# Access Swagger UI
+open http://localhost:8080/swagger-ui
+```
 
 ## Contact Information
 
